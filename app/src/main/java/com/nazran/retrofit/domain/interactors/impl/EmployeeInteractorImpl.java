@@ -3,6 +3,7 @@ package com.nazran.retrofit.domain.interactors.impl;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
+import com.nazran.retrofit.network.response.StatusResponse;
 import com.nazran.retrofit.utils.Constants;
 import com.nazran.retrofit.domain.executor.Executor;
 import com.nazran.retrofit.domain.executor.MainThread;
@@ -29,24 +30,24 @@ public class EmployeeInteractorImpl extends AbstractInteractor {
     public void run() {
         apiService = RetrofitApiClient.getClient().create(EmployeeApiInterface.class);
 
-        Call<EmployeeResponse> call = apiService.getEmployee(1L);
+//        Call<EmployeeResponse> call = apiService.getEmployee(1L);
+        Call<StatusResponse> call = apiService.getStatus();
 
-        call.enqueue(new Callback<EmployeeResponse>() {
+        call.enqueue(new Callback<StatusResponse>() {
             @Override
-            public void onResponse(Call<EmployeeResponse> call, Response<EmployeeResponse> response) {
+            public void onResponse(Call<StatusResponse> call, Response<StatusResponse> response) {
                 try {
-                    assert response.body() != null;
                     Log.d("Test", response.body().getStatus());
-                    mCallback.onEmployeeSuccess(response.body());
+//                    mCallback.onEmployeeSuccess(response.body());
                 } catch (Exception e) {
                     Log.e("Exception", e.getMessage());
                 }
             }
 
             @Override
-            public void onFailure(Call<EmployeeResponse> call, Throwable t) {
+            public void onFailure(Call<StatusResponse> call, Throwable t) {
                 Log.d("Test", String.valueOf(t.getMessage()));
-                mCallback.onEmployeeError();
+//                mCallback.onEmployeeError();
             }
         });
     }
